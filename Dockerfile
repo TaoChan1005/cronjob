@@ -13,11 +13,16 @@ ENV TASK_DIR=/cron_scripts
 ENV WORK_DIR=/cron
 ENV LOCAL_EXEC=true
 
-RUN mkdir -p $WORK_DIR && mkdir -p $TASK_DIR
+
 WORKDIR $WORK_DIR
 ADD cron/*.sh $WORK_DIR/
-ADD cron/entrypoint.sh /entrypoint.sh
+
+# RUN mkdir -p $WORK_DIR \
+RUN mkdir -p $TASK_DIR \
+    && mv /cron/entrypoint.sh /entrypoint.sh \
+    && mv /cron/healthcheck.sh /healthcheck.sh
+
 ENTRYPOINT ["tini", "--", "/entrypoint.sh"]
 
 HEALTHCHECK --timeout=5s \
-    CMD ["$WORK_DIR/healthcheck.sh"]
+    CMD ["/healthcheck.sh"]
