@@ -8,7 +8,10 @@ docker_exec_no_shell() {
     if [[ -n "$DOCKER_EXEC_USER" ]]; then
         exec_user="--user $DOCKER_EXEC_USER"
     fi
+    CMD="docker exec $exec_user "$containerId" "$@""
+    echo "> Executing: $CMD"
     docker exec $exec_user "$containerId" "$@"
+    
 }
 
 docker_exec() {
@@ -23,7 +26,7 @@ docker_exec() {
 }
 
 local_exec() {
-    echo "Executing locally: bash $@"
+    echo "> Executing locally: bash $@"
     bash "$@"
 }
 
