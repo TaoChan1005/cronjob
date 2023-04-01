@@ -42,15 +42,14 @@ CRON_TASK_CMD="$CRON_PERIOD $CRON_TASK_FILE"
 
 
 echo "-------------------------------------------------------------"
-echo " Start at : $(date)"
+echo "> Start at : $(date)"
 echo "-------------------------------------------------------------"
-echo "manual excute: $CRON_TASK_FILE which whould excute all the *.sh in $TASK_DIR/"
+echo "> manual excute: $CRON_TASK_FILE which whould excute all the *.sh in $TASK_DIR/"
 bash $CRON_TASK_FILE
-echo "Done"
 echo "-------------------------------------------------------------"
 
-echo "Cron task: $CRON_TASK_CMD"
+echo "> Cron task: $CRON_TASK_CMD"
 echo "$CRON_TASK_CMD" > $CRON_FILE
 
-echo "Starting crond"
+echo "> Starting crond"
 exec crond -f -l 0

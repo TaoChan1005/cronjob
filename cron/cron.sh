@@ -5,7 +5,7 @@ set -e
 source $WORK_DIR/_exec.sh
 
 echo "-------------------------------------------------------------"
-echo " Executing Cron Tasks: $(date)"
+echo "> Executing Cron Tasks: $(date)"
 echo "-------------------------------------------------------------"
 
 # Obtain the ID of the container. We do this each iteration since the container may be
