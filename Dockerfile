@@ -1,18 +1,23 @@
 FROM alpine
 
+# Mdodyfied from : https://github.com/rcdailey/FIREFLY_III-cronjob
 RUN apk add --no-cache docker-cli bash tini
 
-ENV NEXTCLOUD_EXEC_USER=www-data
-ENV NEXTCLOUD_CONTAINER_NAME=
-ENV NEXTCLOUD_PROJECT_NAME=
-ENV NEXTCLOUD_CRON_MINUTE_INTERVAL=15
-ENV NEXTCLOUD_EXEC_SHELL=bash
-ENV NEXTCLOUD_EXEC_SHELL_ARGS=-c
+ENV DOCKER_EXEC_USER=www-data
+ENV DOCKER_CONTAINER_NAME=
+ENV DOCKER_PROJECT_NAME=
+ENV CRON_MINUTE_INTERVAL=15
+ENV DOCKER_EXEC_SHELL=bash
+ENV DOCKER_EXEC_SHELL_ARGS=-c
+ENV TASK_DIR=/cron_scripts
+ENV WORK_DIR=/cron
+ENV LOCAL_EXEC=true
 
-COPY scripts/*.sh /
-COPY scripts/cron-scripts-builtin /cron-scripts-builtin
-
+RUN mkdir -p $WORK_DIR && mkdir -p $TASK_DIR
+WORKDIR $WORK_DIR
+ADD cron/*.sh $WORK_DIR/
+ADD cron/entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["tini", "--", "/entrypoint.sh"]
 
 HEALTHCHECK --timeout=5s \
-    CMD ["/healthcheck.sh"]
+    CMD ["$WORK_DIR/healthcheck.sh"]

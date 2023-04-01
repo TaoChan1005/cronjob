@@ -1,0 +1,29 @@
+version: "3.7"
+
+# networks:
+#   traefik:
+#     external: true
+
+services:
+
+  firefly:
+    image: fireflyiii/core:latest
+    container_name: ${FIREFLY_CONTAIN_NAME:-firefly}
+    hostname: ${FIREFLY_HOSTNAME:-firefly}
+
+  firefly_cron:
+    build: Dockerfile
+    image: my/cron
+    container_name: ${FIREFLY_CRON_CONTAIN_NAME:-firefly_cron}
+    restart: "no"
+    volumes:
+      - data//cron:/cron_scripts:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    env_file:
+      - ${FIREFLY_BASE}/cron.env
+    environment:
+      DOCKER_CONTAINER_NAME: ${FIREFLY_CONTAIN_NAME:-firefly}
+      # DEBUG: "true"
+      # LOCAL_EXEC: "true"
+    depends_on:
+      - firefly
