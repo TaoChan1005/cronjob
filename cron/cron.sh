@@ -26,7 +26,7 @@ run_scripts_in_dir() {
     i=0
     for shell in $ALL_SHELLS; do
         echo "> Running Script: $shell"
-        _exec $LOCAL_EXEC "$containerId" "$1/$shell" || continue
+        _exec $LOCAL_EXEC "$containerId" "$1/$shell" || true
         i=$(expr ${i} + 1)
     done
     echo "> finished $i scripts"
