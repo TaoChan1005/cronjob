@@ -27,15 +27,15 @@ docker_exec() {
 
 local_exec() {
     echo "> Executing locally: bash $@"
-    bash "$@"
+    bash "$@" || true
 }
 
 _exec() {
     _LOCAL="$1"; shift
 
     if [ $LOCAL_EXEC = "true" ]; then
-        local_exec "$@"
+        local_exec "$@" || true
     else
-        docker_exec "$containerId" "$@"
+        docker_exec "$containerId" "$@" || true
     fi
 }
