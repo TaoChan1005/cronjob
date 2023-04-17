@@ -27,7 +27,7 @@ docker_exec() {
 
 local_exec() {
     echo "> Executing locally: bash $@"
-    bash "$@" || true
+    eval "$@" || true
 }
 
 _exec() {
