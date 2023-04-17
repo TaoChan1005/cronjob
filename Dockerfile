@@ -13,7 +13,6 @@ ENV TASK_DIR=/cron_scripts
 ENV WORK_DIR=/cron
 ENV LOCAL_EXEC=true
 
-
 WORKDIR $WORK_DIR
 ADD cron/*.sh $WORK_DIR/
 
