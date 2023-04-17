@@ -24,6 +24,7 @@ run_scripts_in_dir() {
     # ALL_SHELLS=`ls -l "$1" | awk '/^-.*[0-9][0-9][0-9]-[A-Za-z]+\.sh$/ {print $NF}' `
     # ALL_SHELLS=$(ls -l "$1" | awk '/^-.*.sh$/ {print $NF}')
     ALL_SHELLS=$(ls -l "$1" | awk '/^-.*[0-9][0-9][0-9].+\.sh$/ {print $NF}')
+    echo "> Found $(echo $ALL_SHELLS | wc -w) scripts: $ALL_SHELLS"
     i=0
     for shell in $ALL_SHELLS; do
         echo "> Running Script: $shell"

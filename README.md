@@ -2,6 +2,7 @@
 ## Not only for Nextcloud
 ### As a base image to execute local script
 
+RUN_ON_STARTUP: if true, cron will run once at startup
 
 # Nextcloud Cron Job Docker Container
 
