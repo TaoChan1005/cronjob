@@ -32,7 +32,7 @@ run_scripts_in_dir() {
         _exec $LOCAL_EXEC "$containerId" "$1/$shell" || true
         i=$(expr ${i} + 1)
     done
-    echo "> finished $i scripts"
+    echo "> Finished $i scripts"
 }
 
 # Loop through all shell scripts and execute the contents of those scripts in the Nextcloud
