@@ -1,5 +1,8 @@
 #!/bin/bash
 
+DEFAULT_REPO="iamtaochen"
+DEFAULT_NAME="cronjob"
+
 MODE=$1; shift
 if [ -z "$MODE" ]; then
     MODE="build"
@@ -8,7 +11,7 @@ fi
 function build() {
     NAME=$1
     if [ -z "$NAME" ]; then
-        NAME="cronjob"
+        NAME=$DEFAULT_NAME
     fi
     TAG=$2
     if [ -z "$TAG" ]; then
@@ -21,7 +24,7 @@ function push()
 {
     NAME=$1
     if [ -z "$NAME" ]; then
-        NAME="cronjob"
+        NAME=$DEFAULT_NAME
     fi
     TAG=$2
     if [ -z "$TAG" ]; then
@@ -29,7 +32,7 @@ function push()
     fi
     REPO=$3
     if [ -z "$REPO" ]; then
-        REPO="iamtaochen"
+        REPO=$DEFAULT_REPO
     fi
     IMAG=$NAME:$TAG
     REMOTE=$REPO/$IMAG
