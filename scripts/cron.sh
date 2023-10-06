@@ -38,7 +38,7 @@ run_scripts_in_dir() {
 # Loop through all shell scripts and execute the contents of those scripts in the Nextcloud
 # container.
 
-if [ -z $RUN_SPECIFIC_TASK ]; then
+if [ ! -z $RUN_SPECIFIC_TASK ]; then
     echo "> Running Script: $RUN_SPECIFIC_TASK"
     _exec $LOCAL_EXEC "$containerId" "$1/$RUN_SPECIFIC_TASK" || true
     echo "> Finished"
