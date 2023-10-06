@@ -1,28 +1,34 @@
+# Use lightweight Alpine Linux as the base image
 FROM alpine
 
-# Mdodyfied from : https://github.com/rcdailey/FIREFLY_III-cronjob
+# Install necessary packages: Docker CLI, Bash, and Tini
 RUN apk add --no-cache docker-cli bash tini
 
-ENV DOCKER_EXEC_USER=www-data
-ENV DOCKER_CONTAINER_NAME=
-ENV DOCKER_PROJECT_NAME=
-ENV CRON_MINUTE_INTERVAL=15
-ENV DOCKER_EXEC_SHELL=bash
-ENV DOCKER_EXEC_SHELL_ARGS=-c
-ENV TASK_DIR=/cron_scripts
-ENV WORK_DIR=/cron
-ENV LOCAL_EXEC=true
-ENV RUN_ON_STARTUP=true
+# Set environment variables
+ENV DOCKER_EXEC_USER=www-data \
+    DOCKER_CONTAINER_NAME= \
+    DOCKER_PROJECT_NAME= \
+    CRON_MINUTE_INTERVAL=15 \
+    DOCKER_EXEC_SHELL=bash \
+    DOCKER_EXEC_SHELL_ARGS=-c \
+    TASK_DIR=/cron_scripts \
+    WORK_DIR=/cron \
+    LOCAL_EXEC=true \
+    RUN_ON_STARTUP=true
 
+# Set the working directory
 WORKDIR $WORK_DIR
-ADD cron/*.sh $WORK_DIR/
 
-# RUN mkdir -p $WORK_DIR \
-RUN mkdir -p $TASK_DIR \
-    && mv /cron/entrypoint.sh /entrypoint.sh \
-    && mv /cron/healthcheck.sh /healthcheck.sh
+# Add scripts to the working directory
+ADD scripts/*.sh $WORK_DIR/
 
+# Create the task directory and move the entrypoint and healthcheck scripts
+RUN mkdir -p $TASK_DIR && \
+    mv $WORK_DIR/entrypoint.sh /entrypoint.sh && \
+    mv $WORK_DIR/healthcheck.sh /healthcheck.sh
+
+# Set the entrypoint
 ENTRYPOINT ["tini", "--", "/entrypoint.sh"]
 
-HEALTHCHECK --timeout=5s \
-    CMD ["/healthcheck.sh"]
+# Set the health check
+HEALTHCHECK --timeout=5s CMD ["/healthcheck.sh"]
