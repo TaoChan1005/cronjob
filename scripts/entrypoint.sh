@@ -46,7 +46,11 @@ echo "-------------------------------------------------------------"
 echo "> Start at : $(date)"
 echo "-------------------------------------------------------------"
 if [ $RUN_ON_STARTUP == "true" ]; then
-    echo "> manual excute: $CRON_TASK_FILE which whould excute all the *.sh in $TASK_DIR/"
+    if [ -z $RUN_SPECIFIC_TASK ]; then
+         echo "> manual excute: $RUN_SPECIFIC_TASK"
+    else
+         echo "> manual excute: $CRON_TASK_FILE which whould excute all the *.sh in $TASK_DIR/"
+    fi
     bash $CRON_TASK_FILE
     echo "-------------------------------------------------------------"
 fi
