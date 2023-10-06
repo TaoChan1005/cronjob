@@ -79,13 +79,15 @@ docker run -v /path/to/scripts:/cron_scripts ghcr.io/eqe-lab/cronjob:latest
 
 - `DEBUG`: Set to `"true"` to enable debugging. This will print additional information during the container startup and task execution.
 
+
 ### Script Execution
-- `TASK_DIR`: Specifies the directory where the periodic task scripts are located. Defaults to `/cron_scripts`
+
+- `TASK_DIR`: Specifies the directory where the periodic task scripts are located. The default directory is `/cron_scripts`. Shell scripts in this directory should follow the filename format: `[0-9][0-9][0-9][_-]*.sh`.
+- `RUN_SPECIFIC_TASK`: If set, the container will only execute the specified script. By default, this is empty, and all scripts in the `TASK_DIR` will be executed.
 - `DOCKER_EXEC_USER`: The user to execute the command as when running in a Docker container.
 - `DOCKER_EXEC_SHELL`: The shell to use when executing the command in a Docker container.
 - `DOCKER_EXEC_SHELL_ARGS`: Additional arguments for the shell when executing the command in a Docker container.
 - `LOCAL_EXEC`: If set to `true`, the scripts will be executed locally instead of in a Docker container.
-
 ## Advanced Configuration
 
 ### Entry Points Scripts

@@ -14,7 +14,8 @@ ENV DOCKER_EXEC_USER=www-data \
     TASK_DIR=/cron_scripts \
     WORK_DIR=/cron \
     LOCAL_EXEC=true \
-    RUN_ON_STARTUP=true
+    RUN_ON_STARTUP=true \
+    RUN_SPECIFIC_TASK=
 
 # Set the working directory
 WORKDIR $WORK_DIR
