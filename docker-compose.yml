@@ -3,18 +3,20 @@ version: "3.7"
 services:
 
   cronjob:
-    # build: 
-    #   context: .
-    #   dockerfile: Dockerfile
+    build: 
+      context: .
+      dockerfile: Dockerfile
     image: ghcr.io/eqe-lab/cronjob:latest
     container_name: cronjob
     restart: unless-stopped
     volumes:
       - ${CRON_BASE_DIR:-./cron}/scripts:/cron_scripts:ro
+      - ${CRON_BASE_DIR:-./cron}/scripts:/entrypoints.d:ro
       - /var/run/docker.sock:/var/run/docker.sock
+
     env_file:
       - .env
     environment:
-      DEBUG: ${DEBUG:-"false"}
+      # DEBUG: ${DEBUG:-"false"}
       LOCAL_EXEC: true
 

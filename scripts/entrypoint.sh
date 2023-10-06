@@ -39,8 +39,9 @@ fi
 CRON_FILE=/var/spool/cron/crontabs/root
 CRON_TASK_FILE=$WORK_DIR/cron.sh
 CRON_TASK_CMD="$CRON_PERIOD $CRON_TASK_FILE"
+PRE_TASK_FILE=$WORK_DIR/pre_task.sh
 
-
+bash $PRE_TASK_FILE
 echo "-------------------------------------------------------------"
 echo "> Start at : $(date)"
 echo "-------------------------------------------------------------"

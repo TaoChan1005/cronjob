@@ -2,7 +2,7 @@
 
 ## Overview
 
-This Docker container is designed to run scheduled tasks, also known as cron jobs. It is built on top of Alpine Linux and is intended to be lightweight, flexible, and secure.
+This Docker container is designed to run scheduled tasks, also known as cron jobs, as well as to periodically execute scripts. Built on top of Alpine Linux, it aims to be lightweight, flexible, and secure. Scripts located in the `/cron_scripts` directory (or as specified by the `TASK_DIR` environment variable) will be executed based on the cron schedule you configure.
 
 ## Features
 
@@ -56,7 +56,7 @@ docker run -e RUN_ON_STARTUP=true ghcr.io/eqe-lab/cronjob:latest
 You can add your custom tasks by mounting your own cron scripts to `/path/to/scripts`.
 
 ```bash
-docker run -v /path/to/scripts:/custom-scripts ghcr.io/eqe-lab/cronjob:latest
+docker run -v /path/to/scripts:/cron_scripts ghcr.io/eqe-lab/cronjob:latest
 ```
 
 ## Environment Variables
@@ -80,11 +80,37 @@ docker run -v /path/to/scripts:/custom-scripts ghcr.io/eqe-lab/cronjob:latest
 - `DEBUG`: Set to `"true"` to enable debugging. This will print additional information during the container startup and task execution.
 
 ### Script Execution
-
+- `TASK_DIR`: Specifies the directory where the periodic task scripts are located. Defaults to `/cron_scripts`
 - `DOCKER_EXEC_USER`: The user to execute the command as when running in a Docker container.
 - `DOCKER_EXEC_SHELL`: The shell to use when executing the command in a Docker container.
 - `DOCKER_EXEC_SHELL_ARGS`: Additional arguments for the shell when executing the command in a Docker container.
 - `LOCAL_EXEC`: If set to `true`, the scripts will be executed locally instead of in a Docker container.
+
+## Advanced Configuration
+
+### Entry Points Scripts
+
+The container allows for additional initialization scripts to be executed before the cron jobs start. Place your scripts in a directory and mount it to `/entrypoints.d` in the container. The scripts should be named following the pattern `[0-9][0-9][0-9]*.sh` and will be executed in numerical order.
+
+#### Environment Variables
+
+- `ENTRYPOINTS_DIR`: Specifies the directory where the entry point scripts are located. Defaults to `/entrypoints.d`.
+
+#### Example
+
+To execute additional initialization scripts, you can mount a local directory to `/entrypoints.d` in your `docker-compose.yml`:
+
+```yaml
+volumes:
+  - ./my-entrypoints:/entrypoints.d
+```
+
+Or using Docker command:
+
+```bash
+docker run -v /path/to/my-entrypoints:/entrypoints.d ghcr.io/eqe-lab/cronjob:latest
+```
+
 
 
 ### Example
