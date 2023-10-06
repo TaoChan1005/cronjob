@@ -16,7 +16,7 @@ ENV DOCKER_EXEC_USER=www-data \
     LOCAL_EXEC=true \
     RUN_ON_STARTUP=true \
     RUN_SPECIFIC_TASK= \
-    $ENTRYPOINTS_DIR=/entrypoints.d
+    ENTRYPOINTS_DIR=/entrypoints.d
 
 # Set the working directory
 WORKDIR $WORK_DIR
