@@ -3,10 +3,10 @@ version: "3.7"
 services:
 
   cronjob:
-    build: 
-      context: .
-      dockerfile: Dockerfile
-    image: eqe-lab/cronjob
+    # build: 
+    #   context: .
+    #   dockerfile: Dockerfile
+    image: ghcr.io/eqe-lab/cronjob:latest
     container_name: cronjob
     restart: unless-stopped
     volumes:
