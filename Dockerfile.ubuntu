@@ -7,7 +7,9 @@ FROM ubuntu:${UBUNTU_VERSION}
 RUN apt-get update \
     && apt-get install -y bash tini curl cron\
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /tmp/* \
+    && ln -s $(which cron) /usr/sbin/crond
 
 ARG DOCKER_CLI_VERSION="25.0.5"
 RUN curl -L "https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER_CLI_VERSION}.tgz" -o /tmp/docker.tgz \
