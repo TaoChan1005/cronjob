@@ -19,3 +19,12 @@ jobs:
 
     - name: Push the Docker image
       run: docker push ghcr.io/${{ github.repository }}:latest
+
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile.ubuntu --tag ghcr.io/${{ github.repository }}:ubuntu-latest
+
+    - name: Login to GitHub Container Registry
+      run: echo ${{ secrets.GHCR_PAT }} | docker login ghcr.io -u username --password-stdin
+
+    - name: Push the Docker image
+      run: docker push ghcr.io/${{ github.repository }}:ubuntu-latest

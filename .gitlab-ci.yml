@@ -7,9 +7,11 @@ variables:
   DOCKER_DRIVER: overlay2
   DOCKER_TLS_CERTDIR: ""
   DOCKER_IMAGE_NAME: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME 
+  DOCKER_IMAGE_NAME_UBUNTU: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_NAME-ubuntu
 
 stages:
   - build
+  - build-ubuntu
 
 before_script:
   - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
@@ -23,4 +25,15 @@ build_image:
       if [[ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ]]; then
         docker tag "$DOCKER_IMAGE_NAME" "$CI_REGISTRY_IMAGE:latest"
         docker push "$CI_REGISTRY_IMAGE:latest"
+      fi
+
+build_image_ubuntu:
+  stage: build-ubuntu
+  script:
+    - docker build -t $DOCKER_IMAGE_NAME_UBUNTU -f Dockerfile.ubuntu .
+    - docker push $DOCKER_IMAGE_NAME_UBUNTU
+    - |
+      if [[ "$CI_COMMIT_BRANCH" == "$CI_DEFAULT_BRANCH" ]]; then
+        docker tag "$DOCKER_IMAGE_NAME_UBUNTU" "$CI_REGISTRY_IMAGE:ubuntu-latest"
+        docker push "$CI_REGISTRY_IMAGE:ubuntu-latest"
       fi
