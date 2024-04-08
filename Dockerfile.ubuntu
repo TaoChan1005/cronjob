@@ -1,12 +1,19 @@
 # Use lightweight Alpine Linux as the base image
-FROM Ubuntu
+ARG UBUNTU_VERSION=20.04
+FROM ubuntu:${UBUNTU_VERSION}
 
 # Install necessary packages: Docker CLI, Bash, and Tini
 # RUN apk add --no-cache docker-cli bash tini
 RUN apt-get update \
-    && apt-get install -y docker-cli bash tini \
+    && apt-get install -y bash tini curl\
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+
+ARG DOCKER_CLI_VERSION="25.0.5"
+RUN curl -L "https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER_CLI_VERSION}.tgz" -o /tmp/docker.tgz \
+    && tar -xzvf /tmp/docker.tgz -C /tmp/ \
+    && mv /tmp/docker/docker /usr/local/bin/docker \
+    && rm -rf /tmp/docker.tgz /tmp/docker
 
 # Set environment variables
 ENV DOCKER_EXEC_USER=www-data \
