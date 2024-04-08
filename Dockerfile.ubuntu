@@ -5,7 +5,7 @@ FROM ubuntu:${UBUNTU_VERSION}
 # Install necessary packages: Docker CLI, Bash, and Tini
 # RUN apk add --no-cache docker-cli bash tini
 RUN apt-get update \
-    && apt-get install -y bash tini curl\
+    && apt-get install -y bash tini curl cron\
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
